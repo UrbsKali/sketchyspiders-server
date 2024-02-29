@@ -1,11 +1,15 @@
 package utils
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
 
-	"urbskali/sserver/state"
+	"urbskali/ssserver/models"
+	"urbskali/ssserver/state"
+
+	"github.com/jackc/pgx/v5"
 )
 
 func StartUp() {
@@ -15,7 +19,7 @@ func StartUp() {
 		log.Fatal("Config file does not exist, try running 'ssserver setup'")
 	}
 	// load the config
-	config, err := LoadConfig()
+	config, err := models.LoadConfig()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -23,4 +27,12 @@ func StartUp() {
 	fmt.Println(config.String())
 	// set the config
 	state.Config = config
+
+	conn, err := pgx.Connect(context.Background(), state.Config.DB_URL)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+	defer conn.Close(context.Background())
+	state.DB = conn
 }

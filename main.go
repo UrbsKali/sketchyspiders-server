@@ -1,7 +1,6 @@
 package main
 
 import (
-	"os"
 	"urbskali/ssserver/routes"
 	"urbskali/ssserver/utils"
 
@@ -22,11 +21,5 @@ func server() {
 }
 
 func main() {
-	if len(os.Args) > 1 && os.Args[1] == "setup" {
-		utils.Setup()
-	} else if len(os.Args) > 1 && os.Args[1] == "build-ui" {
-		utils.BuildUI()
-	} else {
-		server()
-	}
+	server()
 }

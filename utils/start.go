@@ -2,7 +2,7 @@ package utils
 
 import (
 	"fmt"
-	"urbskali/sserver/state"
+	"urbskali/ssserver/state"
 
 	"github.com/gofiber/fiber/v2"
 )
